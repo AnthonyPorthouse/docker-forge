@@ -1,4 +1,4 @@
-name: Build Docker Containers
+name: Release Docker Forge
 on: [release]
 
 jobs:
@@ -33,3 +33,6 @@ jobs:
 
       - name: Build Container
         run: docker build . --tag ghcr.io/${REPOSITORY_LC}:${{ matrix.version.name }} --build-arg VARIANT=${{ matrix.version.tag }}
+
+      - name: Push Container
+        run: docker push ghcr.io/${REPOSITORY_LC}:${{ matrix.version.name }}
