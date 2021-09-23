@@ -1,9 +1,15 @@
-FROM openjdk:jre-alpine
+ARG VARIANT=slim
+
+FROM openjdk:${VARIANT}
 
 LABEL maintainer="Anthony Porthouse <anthony@porthou.se>"
 
+RUN apt-get update \
+    && apt-get install curl -y \
+    && apt-get clean
+
 # Minecraft and Forge Settings
-ENV FORGE_VERSION="1.12.2-14.23.3.2655"
+ENV FORGE_VERSION="1.17.1-37.0.70"
 
 # Server Settings
 ENV MIN_RAM="512M"
