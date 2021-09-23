@@ -18,6 +18,11 @@ jobs:
             name: 16
     steps:
       - uses: actions/checkout@v2
+
+      - name: Lowercase Repo Name
+        run: echo "REPOSITORY_LC=${REPOSITORY,,}" >>${GITHUB_ENV}
+        env:
+          REPOSITORY: '${{ github.repository }}'
       
       - name: Build Container
-        run: docker build . --tag ghcr.io/anthonyporthouse/docker-forge:${{ matrix.version.name }} --build-arg VARIANT=${{ matrix.version.tag }}
+        run: docker build . --tag ghcr.io/${REPOSITORY_LC}:${{ matrix.version.name }} --build-arg VARIANT=${{ matrix.version.tag }}

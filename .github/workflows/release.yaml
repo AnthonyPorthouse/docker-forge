@@ -26,5 +26,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}   
 
+      - name: Lowercase Repo Name
+        run: echo "REPOSITORY_LC=${REPOSITORY,,}" >>${GITHUB_ENV}
+        env:
+          REPOSITORY: '${{ github.repository }}'
+
       - name: Build Container
-        run: docker build . --tag ghcr.io/${{ github.repository }}:${{ matrix.version.name }} --build-arg VARIANT=${{ matrix.version.tag }}
+        run: docker build . --tag ghcr.io/${REPOSITORY}:${{ matrix.version.name }} --build-arg VARIANT=${{ matrix.version.tag }}
