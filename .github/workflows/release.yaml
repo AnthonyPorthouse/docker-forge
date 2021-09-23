@@ -18,6 +18,13 @@ jobs:
             name: 16
     steps:
       - uses: actions/checkout@v2
-      
+
+      - name: Log in to the Container registry
+        uses: docker/login-action
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}   
+
       - name: Build Container
-        run: docker build . --tag ghcr.io/anthonyporthouse/docker-forge:${{ matrix.version.name }} --build-arg VARIANT=${{ matrix.version.tag }}
+        run: docker build . --tag ghcr.io/${{ github.repository }}:${{ matrix.version.name }} --build-arg VARIANT=${{ matrix.version.tag }}
