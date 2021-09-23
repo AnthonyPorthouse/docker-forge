@@ -1,0 +1,23 @@
+name: Build Docker Containers
+on: [release]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        version:
+          - tag: 8-slim
+            name: 8
+          - tag: 11-slim
+            name: 11
+          - tag: 14-slim
+            name: 14 
+          - tag: 16-slim
+            name: 16
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Build Container
+        run: docker build . --tag ghcr.io/anthonyporthouse/docker-forge:${{ matrix.version.name }} --build-arg VARIANT=${{ matrix.version.tag }}
